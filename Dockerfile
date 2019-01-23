@@ -15,3 +15,5 @@ RUN sudo pip3 install /morphosolverhome/fenicstools/
 RUN sudo python3 /morphosolverhome/fenicstools/tests/test_Interpolation.py
 
 RUN sudo rm -rf /morphosolverhome/fenicstools
+
+RUN sudo pip3 install git+https://github.com/mdelmans/morphosolver.git

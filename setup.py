@@ -16,8 +16,6 @@ setup(
 		'License :: OSI Approved :: MIT License',
 		'Programming Language :: Python :: 2.7',
 	],
-	packages = ["morphosolver"],
-	package_dir = {"morphosolver": "morphosolver"},
-	install_requires=[],
+	packages = find_packages()
 )
 
