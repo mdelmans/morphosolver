@@ -2,6 +2,7 @@ import os
 import sys
 
 from dolfin import *
+from dolfin import Function
 
 class SmartFunction(Function):
 	""" Smart function is a derivative of the :class:`dolfin.cpp.function` with an extended functionality.\
