@@ -1,0 +1,6 @@
+Subpackages
+-----------
+
+.. toctree::
+
+    morphosolver.core

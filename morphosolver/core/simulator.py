@@ -18,6 +18,12 @@ class DolfinEncoder(JSONEncoder):
 		return str(o)
 
 class Simulator(object):
+	""" Handles running the simulation of the problem defined by a :class:`morphosolver.core.tissuebase.TissueBase` object
+	
+	Attributes:
+		tissue (:class:`morphosolver.core.tissuebase.TissueBase`): tissue to simulate
+		outputDir (:obj:`str`): path to an output directotry, defaults to the current workind directory 
+	"""
 	def __init__(self, tissue, outputDir = os.getcwd()):
 
 		if MPI.COMM_WORLD.Get_rank() == 0:
@@ -44,7 +50,14 @@ class Simulator(object):
 			rmtree(self.outputPath)
 			raise e
 
-	def run(self, dt, n):
+	def run(self, dt, n, growthOn = True):
+		""" Runs the simulation
+		
+		Args:
+			dt (:obj:`float`): A time-step
+			n (:obj:`int`): Number of time-steps
+			growthOn (:obj:`bool`): Enable growth. Defaults to True
+		"""
 		print("Time {0:.2f}\n".format(self.tissue.t))
 		print("\tSaving initial state...")
 		self.saveParams()
@@ -52,8 +65,11 @@ class Simulator(object):
 			
 			print("Time {0:.2f}\n".format(self.tissue.t + dt))
 			
-			print("\tSolving growth...\n")
-			self.tissue.solve(dt)
+			self.tissue.t += dt
+
+			if growthOn:
+				print("\tSolving growth...\n")
+				self.tissue.solve(dt)
 
 			print("\tUpdating state...\n")
 			self.tissue.update(dt)

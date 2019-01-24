@@ -3,6 +3,12 @@ from .util import SmartFunction
 
 
 class Chemical(SmartFunction):
+	""" Chemical defines a concentration field which can be subject to diffusion and user-specified reaction.
+	
+	Attributes:
+		tissue (:class:`morphosolver.core.tissuebase.TissueBase`): the host
+		name (:obj:`str`): Name of the chemical
+	"""
 	def __init__(self, tissue, name):
 		super().__init__( "ch_{0}".format(name), functionSpace = tissue.C )
 
@@ -12,15 +18,30 @@ class Chemical(SmartFunction):
 		self.setExtra(0)
 
 	def setDiffusion(self, D):
+		"""Set diffusion
+
+		Args:
+			D (:obj:`float`): Diffusion rate
+		"""
 		self.D = D
 
 	def setReaction(self, R):
+		"""Set reaction term
+		
+		Args:
+			R (:class:`dolfin.cpp.function.GenericFunction`): Reaction term
+		"""
 		self.R = R
 
 	def setExtra(self, E):
 		self.E = E
 
 	def update(self, dt):
+		""" Update function by calculating reaction-diffusion step
+
+		Args:
+			dt (:obj:`float`): Time-step
+		"""
 		self.c0.vector()[:] = self.vector()[:]
 
 		c  = TrialFunction(self.functionSpace)
@@ -54,56 +75,3 @@ class Chemical(SmartFunction):
 		c.vector()[c.vector() < 0] = 0
 		
 		self.vector()[:] = c.vector()[:]
-
-# class Chemical: 
-# 	def __init__(self, tissue, name):
-# 		self.name	= name
-# 		self.tissue	= tissue
-# 		self.c		= SmartFunction(self.tissue.outputPath, "ci_{0}".format(name), functionSpace = self.tissue.C)
-# 		self.c0		= Function(self.tissue.C)
-
-# 		self.setDiffusion(0)
-# 		self.setReaction(0)
-
-# 	def setDiffusion(self, D):
-# 		self.D = D
-
-# 	def setReaction(self, R):
-# 		self.R = R
-
-# 	def update(self, dt):
-# 		self.c0.vector()[:] = self.c.vector()[:]
-
-# 		c  = TrialFunction(self.tissue.C)
-# 		e  = TestFunction(self.tissue.C) 
-
-# 		derivativeTerm = e*(c-self.c0)*dx
-
-# 		F = derivativeTerm
-		
-# 		try:
-# 			diffusionTerm  = dt*self.D*inner( grad(c), grad(e) )*dx
-# 			F = F + diffusionTerm
-# 		except Exception as ex:
-# 			print("Diffusion term: ", ex)
-		
-# 		try:
-# 			reactionTerm   = -dt*self.R*e*dx
-# 			F = F + reactionTerm
-# 		except Exception as ex:
-# 			print("Reaction term: ", ex)
-
-# 		a, L = lhs(F), rhs(F)
-
-# 		c = Function(self.tissue.C)
-
-# 		solve(a==L, c)
-
-# 		c.vector()[c.vector() < 0] = 0
-		
-# 		self.c.vector()[:] = c.vector()[:]
-
-# 		self.c.save(self.tissue.t)
-
-# 	def project(self, c):
-# 		self.c.project(c)

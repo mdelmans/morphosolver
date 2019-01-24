@@ -9,6 +9,15 @@ import matplotlib.pyplot as plt
 from .util import GenericDomain, SmartFunction
 
 class TissueBase(object):
+	"""
+	TissueBase defines the problem geometry and mechanics. It is a base class, where :func:`~init` and :func:`~update`\
+	functions should be overridden by the derived class.
+
+	Attributes:
+		mesh0 (:class:`dolfin.cpp.mesh.Mesh`): A mesh of the initial condition
+		params (:obj:`dict`): A dictionary of parameters
+	"""
+
 	def __init__(self, mesh0 = UnitCubeMesh(8,8,8), params={}):
 		parameters['form_compiler']['representation'] = 'uflacs'
 		parameters['form_compiler']['optimize'] = True
@@ -45,9 +54,19 @@ class TissueBase(object):
 
 
 	def init(self):
+		"""
+		Virtual initialisation function. It ss only run once before the start of the simulation.
+		"""
 		pass
 
 	def update(self,dt):
+		"""
+		Virtual iupdate function. Is run at every time-step of the simulation before solving the growth mechanics\
+		by the call to the :func:`~solve` function.
+
+		Args:
+			dt (:obj:`float`): A time-step, passed by the :class:`morphosolver.core.simulator.Simulator` object.
+		"""
 		pass
 
 	def eps(self, u):
@@ -63,9 +82,7 @@ class TissueBase(object):
 		C1 = self.params['C1']
 		return C1*( self.A() - Identity(3) )
 
-	def solve(self, dt):
-		self.t += dt
-		
+	def solve(self, dt):	
 		self.u	= Function		(self.V0)
 		self.w	= TestFunction	(self.V0)
 		self.du	= TrialFunction	(self.V0)
@@ -93,6 +110,10 @@ class TissueBase(object):
 		self.n = FacetNormal(self.mesh)
 
 	def plotMesh(self):
+		"""
+		Virtual iupdate function. Is run at every time-step of the simulation before solving the growth mechanics\
+		by the call to the :func:`~solve` function.
+		"""
 		plt.figure()
 		plot(self.mesh)
 
