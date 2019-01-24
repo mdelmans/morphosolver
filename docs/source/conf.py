@@ -19,7 +19,6 @@
 #
 import os
 import sys
-from dolfin import *
 sys.path.insert(0, os.path.abspath('../..'))
 
 
