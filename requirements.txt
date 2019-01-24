@@ -1,4 +1,2 @@
-shutil
 mpi4py
-json
 matplotlib
