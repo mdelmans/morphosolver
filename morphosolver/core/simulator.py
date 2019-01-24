@@ -1,9 +1,7 @@
 import os
-import inspect
 
 from shutil import rmtree
 from datetime import datetime
-import json
 
 from dolfin import *
 from .tissuebase import TissueBase
