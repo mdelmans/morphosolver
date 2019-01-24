@@ -1,8 +1,7 @@
 import os
 import sys
 
-from dolfin import *
-from dolfin import Function
+from dolfin import Function, SubDomain
 
 class SmartFunction(Function):
 	""" Smart function is a derivative of the :class:`dolfin.cpp.function` with an extended functionality.\
@@ -76,71 +75,3 @@ class GenericDomain(SubDomain):
 
 	def inside(self, x, onBoundary):
 		return self.func(x, onBoundary)
-
-# def diffuse(function, D, dt, v, r=Constant(0), advection=False, dilution=True):
-# 	functionSpace = function.function_space()
-
-# 	c0 = Function(functionSpace, Vector(function.vector()) )
-
-# 	c = TrialFunction(functionSpace)
-# 	d = TestFunction(functionSpace)
-
-# 	diffusionTerm	=  dt*D*inner( grad(c), grad(d) )*dx
-# 	derivativeTerm  =     d*(c-c0)*dx
-# 	reactionTerm	= -dt*d*r*dx
-# 	advectionTerm	=  dt*d*inner(v, grad(c))*dx
-# 	dilutionTerm	=  dt*d*c*div(v)*dx
-
-# 	F = derivativeTerm + diffusionTerm + reactionTerm
-	
-# 	if advection:
-# 		F = F + advectionTerm
-
-# 	if dilution:
-# 		F = F + dilutionTerm
-
-# 	a, L = lhs(F), rhs(F)
-
-# 	c = Function(functionSpace)
-
-# 	solve(a==L, c)
-
-# 	c.vector()[c.vector()<0] = 0
-
-# 	function.vector()[:] = c.vector()[:]
-
-# def diffuseRunge(function, D, dt, v, r=0, advection=False, dilution=True):
-# 	functionSpace = function.function_space()
-
-# 	c0 = Function(functionSpace, Vector(function.vector()) )
-
-# 	c = TrialFunction(functionSpace)
-# 	d = TestFunction(functionSpace)
-
-# 	diffusionTerm	=  dt*D*inner( grad(c), grad(d) )*dx
-# 	derivativeTerm  =     d*(c-c0)*dx
-# 	reactionTerm	= -dt*d*r*dx
-# 	advectionTerm	=  dt*d*inner(v, grad(c))*dx
-# 	dilutionTerm	=  dt*d*c*div(v)*dx
-
-# 	diffusionTerm0  =  dt*D*inner( grad(c0), grad(d) )*dx
-# 	advectionTerm0  =  dt*d*inner(v, grad(c0))*dx
-# 	dilutionTerm0	=  dt*d*c0*div(v)*dx
-
-# 	F = derivativeTerm + reactionTerm + 0.5*( diffusionTerm + diffusionTerm0 )
-
-# 	if advection:
-# 		F = F + advectionTerm + advectionTerm0
-
-# 	if dilution:
-# 		F = F + dilutionTerm + dilutionTerm0
-
-# 	a, L = lhs(F), rhs(F)
-
-# 	c = Function(functionSpace)
-
-# 	solve(a==L, c)
-
-# 	c.vector()[c.vector()<0] = 0
-
-# 	function.vector()[:] = c.vector()[:]
