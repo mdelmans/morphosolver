@@ -1,6 +1,12 @@
 import os
 
-from dolfin import *
+from dolfin import UnitCubeMesh, Mesh
+from dolfin import Constant, FunctionSpace, VectorFunctionSpace, TensorFunctionSpace
+from dolfin import project, inner, derivative, ALE
+from dolfin import TestFunction, TrialFunction, Function
+from dolfin import FacetNormal
+from dolfin import SpatialCoordinate
+
 import mshr
 
 from ufl import inv, nabla_grad, min_value
