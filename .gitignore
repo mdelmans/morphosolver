@@ -1,7 +1,5 @@
 **/.DS_Store
 **/*.pyc
-docs/**
-!docs/build
-!docs/Makefile
+docs/build/
 models
 TODO
