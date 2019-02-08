@@ -5,7 +5,7 @@ from .util import SmartFunction
 class Chemical(SmartFunction):
 	""" Chemical defines a concentration field which can be subject to diffusion and user-specified reaction.
 	
-	Attributes:
+	Args:
 		tissue (:class:`morphosolver.core.tissuebase.TissueBase`): the host
 		name (:obj:`str`): Name of the chemical
 	"""

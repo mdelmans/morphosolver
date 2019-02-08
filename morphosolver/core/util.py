@@ -1,18 +1,19 @@
 import os
 import sys
 
-from dolfin import Function, SubDomain
+from dolfin import File
+from dolfin import Function, SubDomain, project
 
 class SmartFunction(Function):
-	""" Smart function is a derivative of the :class:`dolfin.cpp.function` with an extended functionality.\
-	It allows to specify two function spaces (:class:`dolfin.cpp.function.FunctionSpace`) for both an\
+	""" Smart function is a derivative of the :class:`dolfin.Function` with an extended functionality.\
+	It allows to specify two function spaces (:class:`dolfin.FunctionSpace`) for both an\
 	initial and current conditions. The state of the Smart functions are automatically saved at each simulation step\
-	to the :attr:`morphosolver.core.simulator.Simulator.outputDir`
+	to the :attr:`~morphosolver.core.simulator.Simulator.outputDir`
 	
-	Attributes:
+	Args:
 		name (:obj:`str`): Name of the function. The name is used for a filename, where the function state will be saved.
-		functionSpace0 (:class:`dolfin.cpp.function.FunctionSpace`): Function space of the initial condition.
-		functionSpace (:class:`dolfin.cpp.function.FunctionSpace`): Function space of the current condition. Either supplied at\
+		functionSpace0 (:class:`dolfin.FunctionSpace`): Function space of the initial condition.
+		functionSpace (:class:`dolfin.FunctionSpace`): Function space of the current condition. Either supplied at\
 		the initialisation or is derived from the supplied :attr:`~function`.
 	"""
 	def __init__(self, name, functionSpace0 = None, function = None, functionSpace = None):
@@ -55,7 +56,7 @@ class SmartFunction(Function):
 		"""Project given function to the Smart Function.
 
 		Args:
-			obj(:class:`dolfin.cpp.function.GenericFunction`): Function to project.
+			obj(:class:`dolfin.GenericFunction`): Function to project.
 			initial(:obj:`bool`): Project to initial function space. Defaults to False.
 		"""
 		if initial and self.functionSpace0:
@@ -64,9 +65,9 @@ class SmartFunction(Function):
 			self.vector()[:] = project(obj, self.functionSpace).vector()[:]
 
 class GenericDomain(SubDomain):
-	""" A helper class to define a subdomain with a given function.
+	""" A helper class to define a subdomain with a given function. Derivative of :class:`dolfin.SubDomain`.
 
-	Arguments:
+	Args:
 		func(:obj:`lambda(x, onBoundary)`): A lambda function, which returns true if the point x is inside the defined subdomain.
 	"""
 	def __init__(self, func):

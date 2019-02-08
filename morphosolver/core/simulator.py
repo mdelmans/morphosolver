@@ -18,7 +18,7 @@ class DolfinEncoder(JSONEncoder):
 class Simulator(object):
 	""" Handles running the simulation of the problem defined by a :class:`morphosolver.core.tissuebase.TissueBase` object
 	
-	Attributes:
+	Args:
 		tissue (:class:`morphosolver.core.tissuebase.TissueBase`): tissue to simulate
 		outputDir (:obj:`str`): path to an output directotry, defaults to the current workind directory 
 	"""
